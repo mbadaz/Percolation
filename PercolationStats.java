@@ -17,6 +17,7 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
+    public static final double CONFIDENCE_INTERVAL_95 = 1.96;
     private double[] experiments;
     // the results (percolation threshold) of each experiment
     private final int t;
@@ -57,11 +58,11 @@ public class PercolationStats {
     }                        // sample standard deviation of percolation threshold
 
     public double confidenceLo() {
-        return mean() - (1.96 * (stddev() / Math.sqrt(t)));
+        return mean() - (CONFIDENCE_INTERVAL_95 * (stddev() / Math.sqrt(t)));
     }                  // low  endpoint of 95% confidence interval
 
     public double confidenceHi() {
-        return mean() + (1.96 * (stddev() / Math.sqrt(t)));
+        return mean() + (CONFIDENCE_INTERVAL_95 * (stddev() / Math.sqrt(t)));
     }
 
     public static void main(String[] args) {

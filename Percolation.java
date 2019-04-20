@@ -23,7 +23,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     private final WeightedQuickUnionUF wqUF;  // the Weighted Quick Union Algorithm
-    private Boolean[] sitesStates;          // holds the states of the sites i.e blocked / open
+    private boolean[] sitesStates;          // holds the states of the sites i.e blocked / open
     private final int gridDimenSize;
     private final int virtualTop;
     private final int virtualBottom;
@@ -36,7 +36,7 @@ public class Percolation {
         if (n <= 0) throw new IllegalArgumentException();
         wqUF = new WeightedQuickUnionUF(n * n);
         gridDimenSize = n;
-        sitesStates = new Boolean[n * n];
+        sitesStates = new boolean[n * n];
         virtualTop = 0;
         virtualBottom = n * n - 1;
         for (int i = 0; i < n; i++) {
@@ -88,7 +88,7 @@ public class Percolation {
      */
     public boolean isFull(int row, int col) {
         int site = coordinatesToSiteId(row, col);
-        return wqUF.find(site) == wqUF.find(virtualTop);
+        return wqUF.find(site) == wqUF.find(virtualTop) && sitesStates[site ];
     }
 
     /**
