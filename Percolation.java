@@ -23,7 +23,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     private final WeightedQuickUnionUF wqUF;  // the Weighted Quick Union Algorithm
-    private int[] sitesStates;          // holds the states of the sites i.e blocked / open
+    private Boolean[] sitesStates;          // holds the states of the sites i.e blocked / open
     private final int gridDimenSize;
     private final int virtualTop;
     private final int virtualBottom;
@@ -35,11 +35,11 @@ public class Percolation {
         if (n <= 0) throw new IllegalArgumentException();
         wqUF = new WeightedQuickUnionUF(n * n);
         gridDimenSize = n;
-        sitesStates = new int[n * n];
+        sitesStates = new Boolean[n * n];
         virtualTop = 0;
         virtualBottom = n * n - 1;
         for (int i = 0; i < n; i++) {
-            sitesStates[i] = 0;
+            sitesStates[i] = false;
         }
     }
 
@@ -74,7 +74,7 @@ public class Percolation {
      * @param col is the x coordinate
      */
     public boolean isOpen(int row, int col) {
-        return sitesStates[coordinatesToSiteId(row, col)] == 1;
+        return sitesStates[coordinatesToSiteId(row, col)];
     }
 
     /**
@@ -96,8 +96,8 @@ public class Percolation {
      */
     public int numberOfOpenSites() {
         int n = 0;
-        for (int i : sitesStates) {
-            if (i == 1) {
+        for (boolean i : sitesStates) {
+            if (i) {
                 n++;
             }
         }
@@ -107,7 +107,7 @@ public class Percolation {
     /**
      * Checks whether the system percolates
      *
-     * @return
+     * @return boolean percolation state
      */
     public boolean percolates() {
         return wqUF.find(virtualTop) == wqUF.find(virtualBottom);
@@ -116,10 +116,10 @@ public class Percolation {
     /**
      * Connects the site to all of it's adjacent open sites.
      *
-     * @param site
+     * @param site site to be connected
      */
     private void connectSite(int site) {
-        if (sitesStates[site] == 1) return;
+        if (sitesStates[site]) return;
 
         // calculate the adjacent sites
         int siteAbove = site - gridDimenSize;
@@ -128,17 +128,17 @@ public class Percolation {
         int siteLeft = site - 1;
 
 
-        if (site % gridDimenSize != 0 && sitesStates[siteLeft] == 1) {
+        if (site % gridDimenSize != 0 && sitesStates[siteLeft]) {
             // connect to left site
             wqUF.union(site, siteLeft);
         }
 
-        if ((site + 1) % gridDimenSize != 0 && sitesStates[siteRight] == 1) {
+        if ((site + 1) % gridDimenSize != 0 && sitesStates[siteRight]) {
             // connect to right site
             wqUF.union(site, siteRight);
         }
 
-        if (siteAbove >= 0 && sitesStates[siteAbove] == 1) {
+        if (siteAbove >= 0 && sitesStates[siteAbove]) {
             // connect to site above
             wqUF.union(site, siteAbove);
         }
@@ -147,7 +147,7 @@ public class Percolation {
             if (site != virtualTop) wqUF.union(site, virtualTop);
         }
 
-        if (siteBelow < gridDimenSize * gridDimenSize - 1 && sitesStates[siteBelow] == 1) {
+        if (siteBelow < gridDimenSize * gridDimenSize - 1 && sitesStates[siteBelow]) {
             // connect to below site
             wqUF.union(site, siteBelow);
         }
@@ -156,7 +156,7 @@ public class Percolation {
             if (site != virtualBottom) wqUF.union(site, virtualBottom);
         }
 
-        sitesStates[site] = 1;
+        sitesStates[site] = true;
     }
 
 }
