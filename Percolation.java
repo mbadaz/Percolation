@@ -27,6 +27,7 @@ public class Percolation {
     private final int gridDimenSize;
     private final int virtualTop;
     private final int virtualBottom;
+    private int openSites = 0;
 
     /**
      * @param n The grid dimension size
@@ -53,6 +54,7 @@ public class Percolation {
         int site = coordinatesToSiteId(row, col);
         if (isOpen(row, col)) return;
         connectSite(site);
+        openSites++;
     }
 
     /**
@@ -95,13 +97,7 @@ public class Percolation {
      * @return number of open sites
      */
     public int numberOfOpenSites() {
-        int n = 0;
-        for (boolean i : sitesStates) {
-            if (i) {
-                n++;
-            }
-        }
-        return n;
+        return openSites;
     }
 
     /**
