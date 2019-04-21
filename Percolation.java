@@ -28,6 +28,7 @@ public class Percolation {
     private final int virtualTop;
     private final int virtualBottom;
     private int openSites = 0;
+
     /**
      * @param n The grid dimension size
      */
@@ -63,8 +64,10 @@ public class Percolation {
      * @param col is the x coordinate
      */
     private int coordinatesToSiteId(int row, int col) {
+        if (row < 1 || row > gridDimenSize
+                || col < 1 || col > gridDimenSize)
+            throw new IllegalArgumentException("illegal argument supplied");
         int site = (gridDimenSize * (row - 1)) + (col - 1);
-        if (site < 0) throw new IllegalArgumentException();
         return site;
     }
 
@@ -152,6 +155,14 @@ public class Percolation {
         }
 
         sitesStates[site] = true;
+    }
+
+    public static void main(String[] args) {
+        int x = Integer.parseInt(args[1]);
+        int y = Integer.parseInt(args[2]);
+        int n = Integer.parseInt(args[0]);
+        Percolation perc = new Percolation(n);
+        perc.open(x, y);
     }
 
 }
