@@ -28,7 +28,6 @@ public class Percolation {
     private final int virtualTop;
     private final int virtualBottom;
     private int openSites = 0;
-
     /**
      * @param n The grid dimension size
      */
@@ -88,7 +87,7 @@ public class Percolation {
      */
     public boolean isFull(int row, int col) {
         int site = coordinatesToSiteId(row, col);
-        return wqUF.find(site) == wqUF.find(virtualTop) && sitesStates[site ];
+        return wqUF.find(site) == wqUF.find(virtualTop) && sitesStates[site];
     }
 
     /**
