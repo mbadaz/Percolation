@@ -21,6 +21,8 @@ public class PercolationStats {
     private double[] experiments;
     // the results (percolation threshold) of each experiment
     private final int t;
+    private double mean;
+    private double stddev;
 
     /**
      * Runs T number of experiment on an N*N grid and collects the results (percolation thresholds)
@@ -50,19 +52,21 @@ public class PercolationStats {
     }
 
     public double mean() {
-        return StdStats.mean(experiments);
+        mean = StdStats.mean(experiments);
+        return mean;
     }                          // sample mean of percolation threshold
 
     public double stddev() {
-        return StdStats.stddev(experiments);
+        stddev = StdStats.stddev(experiments);
+        return stddev;
     }                        // sample standard deviation of percolation threshold
 
     public double confidenceLo() {
-        return mean() - (CONFIDENCE_INTERVAL_95 * (stddev() / Math.sqrt(t)));
+        return mean - (CONFIDENCE_INTERVAL_95 * (stddev / Math.sqrt(t)));
     }                  // low  endpoint of 95% confidence interval
 
     public double confidenceHi() {
-        return mean() + (CONFIDENCE_INTERVAL_95 * (stddev() / Math.sqrt(t)));
+        return mean + (CONFIDENCE_INTERVAL_95 * (stddev / Math.sqrt(t)));
     }
 
     public static void main(String[] args) {
